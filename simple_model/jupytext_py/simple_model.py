@@ -83,4 +83,24 @@ for i in range(25):
     plt.xlabel(class_names[train_labels[i]])
 plt.show()
 
+# %% [markdown]
+# # preprocess data
+
+# %%
+train_images_norm = train_images / 255.0
+test_images_norm = test_images / 255.0
+
+# %%
+train_images_norm.min(), train_images_norm.max() 
+
+# %%
+test_images_norm.min(), test_images_norm.max() 
+
+# %%
+plt.figure()
+# plt.imshow(train_images_norm[0])
+plt.imshow(train_images_norm[0], cmap=plt.cm.binary)
+plt.colorbar()
+plt.show()
+
 # %%
