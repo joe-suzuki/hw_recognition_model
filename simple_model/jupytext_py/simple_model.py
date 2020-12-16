@@ -104,3 +104,79 @@ plt.colorbar()
 plt.show()
 
 # %%
+plt.figure(figsize=(10,10))
+for i in range(25):
+    plt.subplot(5,5,i+1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.imshow(train_images_norm[i], cmap=plt.cm.binary)
+    plt.xlabel(class_names[train_labels[i]])
+plt.show()
+
+# %% [markdown]
+# # build the model
+
+# %%
+model = tf.keras.Sequential([
+    tf.keras.layers.Flatten(input_shape=(28,28)),
+    tf.keras.layers.Dense(128, activation="relu"),
+    tf.keras.layers.Dense(10)
+])
+
+
+# %% [markdown]
+# $$
+#         \left[\begin{array}{ccc}
+#             x_{1,1} & \cdots & x_{1,28} \\
+#             x_{2,1} & \cdots & x_{2,28} \\
+#             \vdots  & \ddots & \vdots \\
+#             x_{28,1} & \cdots & x_{28,28} \\
+#         \end{array}\right]
+# $$
+
+# %% [markdown]
+# $$
+# \left[ x_{1,1} \dots x_{1,28} x_{2,1} \dots x_{2,28} x_{28,1} \dots x_{28,28} \right]
+# $$
+
+# %% [markdown]
+# $$
+# \begin{align}
+# &y_{1} = relu(w_{11}x_{1} + w_{12}x_{2} + \dots + w_{1,784}x_{784} + b_{1}) \\
+# &y_{2} = relu(w_{21}x_{1} + w_{22}x_{2} + \dots + w_{2,784}x_{784} + b_{2}) \\
+# &\vdots \\
+# &y_{128} = relu(w_{128,1}x_{1} + w_{128,2}x_{2} + \dots + w_{128,784}x_{784} + b_{128})
+# \end{align}
+# $$
+
+# %%
+def relu(x):
+    return np.maximum(0, x)
+
+x = np.arange(-5, 5, 0.1)
+plt.ylim(-1, 5)
+plt.grid()
+plt.plot(x, relu(x))
+plt.show()
+
+# %% [markdown]
+# $$
+# \begin{align}
+# &z_{1} = f(Y_{1}) = Y_{1} = w_{1,1}y_{1} + w_{1,2}y_{2} +\dots w_{1,128}y_{128} + b_{1}\\
+# &z_{2} = f(Y_{2}) = Y_{2} = w_{2,1}y_{1} + w_{2,2}y_{2} +\dots w_{2,128}y_{128} + b_{2}\\
+# &\vdots \\
+# &z_{10} = f(Y_{10}) = Y_{10} = w_{10,1}y_{1} + w_{10,2}y_{2} +\dots w_{10, 128}y_{128} + b_{128}\\
+# \end{align}
+# $$
+
+# %% [markdown]
+# $$
+#   z_{i} \geq 0 \\
+#     and \\
+#     \sum{z_{i}} = 1
+# $$
+
+# %%
+model.summary()
+
+# %%
