@@ -179,4 +179,16 @@ plt.show()
 # %%
 model.summary()
 
+# %% [markdown]
+# # complie the model
+
+# %%
+model.compile(
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    optimizer="adam",
+#     //if using tensorflow 2.3.1
+#     metrics=["sparse_categorical_accuracy"]
+    metrics=["accuracy"]
+)
+
 # %%
