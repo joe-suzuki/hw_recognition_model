@@ -191,4 +191,14 @@ model.compile(
     metrics=["accuracy"]
 )
 
+# %% [markdown]
+# # fit
+
+# %%
+model.fit(
+    train_images_norm,
+    train_labels,
+    epochs=5
+)
+
 # %%
