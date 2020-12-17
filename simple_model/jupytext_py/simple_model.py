@@ -207,4 +207,55 @@ model.fit(
 # %%
 model.evaluate(test_images_norm, test_labels, verbose=2)
 
+# %% [markdown]
+# # predict
+
+# %%
+raw_predictions = model.predict(test_images_norm)
+
+# %%
+raw_predictions.shape
+
+# %%
+raw_predictions[0]
+
+# %%
+raw_predictions[0].sum()
+
+# %%
+np.argmax(raw_predictions[0])
+
+# %%
+test_labels[0]
+
+# %% [markdown]
+# ## prob model
+
+# %%
+prob_model = tf.keras.Sequential([
+    model,
+    tf.keras.layers.Softmax()
+])
+
+# %%
+predictions = prob_model.predict(test_images_norm)
+
+# %%
+predictions.shape
+
+# %%
+predictions[0]
+
+# %%
+predictions[0].sum()
+
+# %%
+np.argmax(predictions[0])
+
+# %%
+np.argsort(-predictions[0])
+
+# %%
+np.argsort(-raw_predictions[0])
+
 # %%
