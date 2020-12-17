@@ -201,4 +201,10 @@ model.fit(
     epochs=5
 )
 
+# %% [markdown]
+# # evaluate
+
+# %%
+model.evaluate(test_images_norm, test_labels, verbose=2)
+
 # %%
