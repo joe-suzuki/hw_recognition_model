@@ -186,9 +186,8 @@ model.summary()
 model.compile(
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
     optimizer="adam",
-#     //if using tensorflow 2.3.1
-#     metrics=["sparse_categorical_accuracy"]
-    metrics=["accuracy"]
+    metrics=["sparse_categorical_accuracy"]
+#     metrics=["accuracy"]
 )
 
 # %% [markdown]
@@ -326,5 +325,24 @@ predictions_single = prob_model.predict(img_3axis)
 
 # %%
 np.argmax(predictions_single)
+
+# %% [markdown]
+# # save and load the model
+
+# %%
+prob_model.compile(
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+    optimizer="adam",
+    metrics=["sparse_categorical_accuracy"]
+#     metrics=["accuracy"]
+)
+
+prob_model.save("../saved_models/simple_model.h5")
+
+# %%
+loaded_model = tf.keras.models.load_model("../saved_models/simple_model.h5")
+
+# %%
+loaded_model.evaluate(test_images_norm, test_labels)
 
 # %%
