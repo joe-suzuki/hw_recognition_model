@@ -300,4 +300,31 @@ def verify_prediction(i):
 # %%
 verify_prediction(6)
 
+# %% [markdown]
+# # use the trained model
+
+# %%
+img = test_images_norm[0]
+
+# %%
+# prob_model.predict(img)
+
+# %%
+img.shape
+
+# %%
+img_3axis = np.expand_dims(img, 0)
+
+# %%
+img_3axis.shape
+
+# %%
+prob_model.predict(img_3axis)
+
+# %%
+predictions_single = prob_model.predict(img_3axis)
+
+# %%
+np.argmax(predictions_single)
+
 # %%
