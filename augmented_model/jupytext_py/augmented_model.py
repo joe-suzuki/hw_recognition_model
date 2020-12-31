@@ -86,7 +86,7 @@ for i in range(30):
 
 # %%
 model = tf.keras.Sequential([
-    tf.keras.layers.Flatten(input_shape=(28,28)),
+    tf.keras.layers.Flatten(input_shape=(28,28,1)),
     tf.keras.layers.Dense(128, activation="relu"),
     tf.keras.layers.Dense(10)
 ])
@@ -110,7 +110,7 @@ model.compile(
 
 # %%
 model.fit(
-    train_images_norm,
+    augmented_images,
     train_labels,
     epochs=5
 )
@@ -122,27 +122,6 @@ model.fit(
 model.evaluate(test_images_norm, test_labels, verbose=2)
 
 # %% [markdown]
-# # predict
-
-# %%
-raw_predictions = model.predict(test_images_norm)
-
-# %%
-raw_predictions.shape
-
-# %%
-raw_predictions[0]
-
-# %%
-raw_predictions[0].sum()
-
-# %%
-np.argmax(raw_predictions[0])
-
-# %%
-test_labels[0]
-
-# %% [markdown]
 # ## prob model
 
 # %%
@@ -152,99 +131,6 @@ prob_model = tf.keras.Sequential([
 ])
 
 # %%
-predictions = prob_model.predict(test_images_norm)
-
-# %%
-predictions.shape
-
-# %%
-predictions[0]
-
-# %%
-predictions[0].sum()
-
-# %%
-np.argmax(predictions[0])
-
-# %%
-np.argsort(-predictions[0])
-
-# %%
-np.argsort(-raw_predictions[0])
-
-# %% [markdown]
-# # verify model
-
-# %%
-plt.imshow(test_images_norm[0], cmap=plt.cm.binary)
-plt.show()
-
-# %%
-plt.bar(range(10), predictions[0])
-plt.xticks(range(10))
-plt.show()
-
-# %%
-plt.figure(figsize=(6,3))
-
-plt.subplot(1,2,1)
-plt.imshow(test_images_norm[0], cmap=plt.cm.binary)
-
-plt.subplot(1,2,2)
-plt.bar(range(10), predictions[0])
-plt.xticks(range(10))
-
-plt.show()
-
-
-# %%
-def verify_prediction(i):
-    plt.figure(figsize=(6,3))
-
-    plt.subplot(1,2,1)
-    plt.imshow(test_images_norm[i], cmap=plt.cm.binary)
-
-    plt.subplot(1,2,2)
-    plt.bar(range(10), predictions[i])
-    plt.xticks(range(10))
-
-    plt.show()
-
-
-# %%
-verify_prediction(6)
-
-# %% [markdown]
-# # use the trained model
-
-# %%
-img = test_images_norm[0]
-
-# %%
-# prob_model.predict(img)
-
-# %%
-img.shape
-
-# %%
-img_3axis = np.expand_dims(img, 0)
-
-# %%
-img_3axis.shape
-
-# %%
-prob_model.predict(img_3axis)
-
-# %%
-predictions_single = prob_model.predict(img_3axis)
-
-# %%
-np.argmax(predictions_single)
-
-# %% [markdown]
-# # save and load the model
-
-# %%
 prob_model.compile(
     loss=tf.keras.losses.SparseCategoricalCrossentropy(),
     optimizer="adam",
@@ -252,6 +138,13 @@ prob_model.compile(
 #     metrics=["accuracy"]
 )
 
+# %%
+prob_model.evaluate(test_images_norm, test_labels, verbose=2)
+
+# %% [markdown]
+# # save and load the model
+
+# %%
 prob_model.save("../saved_models/augmented_model.h5")
 
 # %%
